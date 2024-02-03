@@ -10,6 +10,8 @@ CREATE TABLE "USERS"
     name text NOT NULL,
     CONSTRAINT users_id_pk PRIMARY KEY (id)
 );
+-- Make user name unique to avoid ambigous user identification
+ALTER TABLE "USERS" ADD CONSTRAINT user_name_unique UNIQUE (name);
 
 CREATE TABLE "HOSTS"
 (
@@ -38,6 +40,8 @@ CREATE TABLE "ROOMS"
     CONSTRAINT rooms_id_pk PRIMARY KEY (id),
     CONSTRAINT host_id_fk FOREIGN KEY (host_id) REFERENCES "HOSTS" (id)
 );
+-- Make room name unique to avoid ambigous room identification
+ALTER TABLE "ROOMS" ADD CONSTRAINT room_name_unique UNIQUE (name);
 
 CREATE TABLE "RESERVATIONS"
 (
