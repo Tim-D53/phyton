@@ -79,10 +79,8 @@ class TestBankMethods(unittest.TestCase):
         
         bank.open_account(savings_acc)
 
-        # Check if account is opened
         self.assertIn(savings_acc, bank._accounts)
         
-        # Check if the account has the correct balance
         for account in bank._accounts:
             if account.get_account_number() == account_number:
                 self.assertEqual(account.get_balance(), initial_balance)
@@ -96,26 +94,20 @@ class TestBankMethods(unittest.TestCase):
         
         bank.open_account(savings_acc)
 
-        # Mock the print function
         original_print = __builtins__.print
         try:
-            # Redirect print to a buffer
             messages_sent = []
             def mock_print(*args, **kwargs):
                 messages_sent.append(args[0])
             __builtins__.print = mock_print
-            # Call update method
             bank.update()
         finally:
-            # Restore print function
             __builtins__.print = original_print
         
-        # Check if interest was added
         updated_balance = initial_balance + initial_balance * 0.05
         for account in bank._accounts:
             if account.get_account_number() == account_number:
                 self.assertEqual(account.get_balance(), updated_balance)
                 break
         
-        # Check if message was sent
         self.assertIn("Sending letter to account", messages_sent)
